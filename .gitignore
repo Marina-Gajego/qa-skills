@@ -1,0 +1,12 @@
+.DS_Store
+.idea/
+.vscode/
+*.log
+.env
+node_modules/
+
+# skill-creator eval workspaces
+*-workspace/
+
+# local bug reports saved by bug-report-writer (may contain project data)
+bug-reports/

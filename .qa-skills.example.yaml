@@ -1,0 +1,16 @@
+# QA Skills — preferences
+#
+# Copy this file to one of these places and rename it to `.qa-skills.yaml`:
+#   - <your project root>/.qa-skills.yaml  → applies to that project (commit it to share with your team)
+#   - ~/.qa-skills.yaml                   → your personal default for every project
+# The project file wins over the personal one. Asking in the chat
+# (e.g. "responde em espanhol") wins over both.
+
+# Language the skills talk to you in.
+# Supported: en | pt-BR | es
+language: pt-BR
+
+# Language of what the skills produce (bug reports, test cases, reports…).
+# Optional — defaults to `language`. Useful when the team chats in one
+# language but files tickets in another.
+# report_language: en
