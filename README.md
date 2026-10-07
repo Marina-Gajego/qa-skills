@@ -1,8 +1,8 @@
 # 🧪 QA Skills
 
-> An AI-powered QA framework built from **skills** — reusable instructions that teach AI agents (Claude, Copilot, Codex, Gemini and others) how to do quality work the way an experienced QA engineer would.
+> An open collection of QA **skills** — reusable instructions that help AI agents (Claude, Copilot, Codex, Gemini and others) with quality work, with a human always reviewing and approving the result.
 
-Instead of a traditional test framework made of libraries, this repository is a framework made of **know-how**: each skill packages a QA practice (exploratory testing, test design, automation review, performance testing…) so an AI agent can execute it consistently, using MCP servers and real tools along the way.
+Instead of a library of code, this repository is made of **know-how**: each skill packages a QA practice so an AI agent can execute it consistently, using MCP servers and the tools your team already uses along the way.
 
 **Status:** 🚧 Early stage — one skill available today, more being added over time.
 

@@ -1,6 +1,6 @@
 ---
 name: Skill idea
-about: Suggest a new QA skill for the framework
+about: Suggest a new QA skill for QA Skills
 title: "[Skill idea] "
 labels: skill-idea
 ---
