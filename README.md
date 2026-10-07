@@ -4,7 +4,7 @@
 
 Instead of a library of code, this repository is made of **know-how**: each skill packages a QA practice so an AI agent can execute it consistently, using MCP servers and the tools your team already uses along the way.
 
-**Status:** 🚧 Early stage — one skill available today, more being added over time.
+**Status:** 🚧 Early stage — two skills available today, more being added over time.
 
 ---
 
@@ -18,6 +18,7 @@ Skills available **today**:
 
 | Category | Skill | Description |
 |---|---|---|
+| Discovery | [`test-stack-discovery`](skills/test-stack-discovery/SKILL.md) | Map how your test automation repo is built — stack and versions, how to run it, structure, patterns, naming and selector conventions, environments, test data and auth — with `file:line` evidence for every claim and 1–2 reference tests to imitate. Saves `.qa-skills/test-stack.md` in your repo so automation skills write code that looks like your team wrote it. Read-only: never runs tests or copies secrets. |
 | Report | [`bug-report-writer`](skills/bug-report-writer/SKILL.md) | Turn any evidence (notes, logs, failed tests) into a clear, reproducible, Jira-style bug report — built strictly from what you provide, with gaps marked instead of invented. Delivers in chat, as a Markdown file, or straight into your tracker via MCP. |
 
 More skills (requirements analysis, test design, exploratory testing, automation, code review, performance…) are planned. Have an idea? Open a **Skill idea** issue.

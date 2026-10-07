@@ -1,0 +1,46 @@
+{
+  "skill_name": "test-stack-discovery",
+  "evals": [
+    {
+      "id": 1,
+      "name": "lunarpass-real-playwright",
+      "prompt": "adicionei meu repo de testes no workspace: /Users/marinagajego/Documents/git-repositorios/Metodo-ADT/LunarPassTests . entende como ele é feito pra depois eu pedir pra gerar testes novos no mesmo padrão",
+      "expected_output": "Tests-only Playwright + TypeScript repo. .qa-skills/test-stack.md with all fixed sections; POM + custom fixtures from support/fixtures, test.step, getByRole locators, setup project + storageState, faker factories + Kysely/pg DB cleanup, DATABASE_URL by name only; ignores .claude/; no secrets; reference test MissionControlNew.spec.ts or MissionControlLogin.spec.ts; flags how to start the app as uncertain.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "product-monorepo-cypress",
+      "prompt": "esse é o repo do produto (<REPO>), a gente tem uns testes e2e lá dentro. mapeia a stack de automação pra mim",
+      "expected_output": "Detects a pnpm product monorepo and focuses on packages/e2e (Cypress 13 + TS). Notes unit tests in apps/* briefly. data-cy via getByCy, cy.session API login, @cypress/grep tags, faker factory, fixtures. Legacy checkout_old.cy.js marked as do-not-imitate. How to start the app from root README/CI (docker compose, db:seed, pnpm dev). Env var names only.",
+      "files": [
+        "fixtures/shopfront"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "pytest-api-existing-file",
+      "prompt": "Analiza mi repositorio de pruebas de la API de pagos en <REPO> y actualiza el documento del stack de pruebas.",
+      "expected_output": "Tests-only Python/pytest API repo. Existing .qa-skills/test-stack.md is NOT overwritten: writes test-stack.new.md and shows a diff/changes, asks to confirm. environment.md untouched. Carries forward the (confirmed by QA) naming entry. poetry, Python 3.11, pytest 8, httpx clients, builders, markers, --env option + config yaml, GitLab CI. Reply in Spanish.",
+      "files": [
+        "fixtures/payments-api-tests"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "java-product-junit-conflict",
+      "prompt": "I've added our orders-service repo to the workspace (open folders: /Users/marinagajego/Documents/git-repositorios/qa-skills and <REPO>). Before I start writing more API tests here, figure out how the tests are set up.",
+      "expected_output": "Ignores the qa-skills folder. Product repo (Spring Boot); focuses on src/test. Java 17, Maven wrapper, JUnit 5 + vintage JUnit 4, RestAssured, Testcontainers, Cucumber, AssertJ/Hamcrest, surefire/failsafe split. Flags JUnit4 vs JUnit5 and naming conflict, asks at most a few questions; picks CreateOrderIT as reference. Jenkins CI.",
+      "files": [
+        "fixtures/orders-service"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "serverest-real-java-bdd",
+      "prompt": "adicionei mais um repo aqui: /Users/marinagajego/Documents/git-repositorios/serverest-bmad-tea-automation-qa . mapeia como os testes dele são feitos",
+      "expected_output": "Tests-only Java API suite (RestAssured + Cucumber + JUnit 5 platform) against ServeRest. Ignores .claude/.agents/_bmad/_bmad-output/.github/agents in counts and conventions, but reads project-context.md as documented conventions. Services/factories/models/steps/ScenarioContext pattern, runner, GitHub Actions. All fixed sections with evidence, no secrets.",
+      "files": []
+    }
+  ]
+}
