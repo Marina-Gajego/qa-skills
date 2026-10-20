@@ -18,7 +18,7 @@ Skills available **today**:
 
 | Category | Skill | Description |
 |---|---|---|
-| Testing | [`exploratory-testing`](skills/exploratory-testing/SKILL.md) | Run a real exploratory session (SBTM) on a web app, API, mobile or desktop app — driving the product through MCP tools (Playwright MCP by default) — and get a session report with charter, notes, defects with evidence, questions and next charters. Warns you when the tools to reach the product aren't connected. |
+| Testing | [`exploratory-testing`](skills/exploratory-testing/SKILL.md) | Run a real exploratory session (SBTM) on a web app, API, mobile or desktop app — driving the product through MCP tools (Playwright MCP by default) — and get a session report with charter, notes, defects with evidence, questions and next charters. Warns you when the tools to reach the product aren't connected. Validated on web (Playwright MCP) and REST APIs (`curl`); mobile and desktop targets are not validated yet. |
 | Report | [`bug-report-writer`](skills/bug-report-writer/SKILL.md) | Turn any evidence (notes, logs, failed tests) into a clear, reproducible, Jira-style bug report — built strictly from what you provide, with gaps marked instead of invented. Delivers in chat, as a Markdown file, or straight into your tracker via MCP. |
 
 More skills (requirements analysis, test design, automation, code review, performance…) are planned. Have an idea? Open a **Skill idea** issue.

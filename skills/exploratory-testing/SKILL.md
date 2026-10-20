@@ -49,12 +49,15 @@ With the target type known (web, API, mobile, desktop, CLI), follow [references/
 - **Non-web targets need an MCP or tool that can drive them** (a mobile automation MCP, a desktop automation MCP…). Same rule: warn, explain what's needed, stop.
 - **APIs** work with any HTTP client you can run — a shell with `curl`, or an HTTP/API MCP.
 
-Then confirm the target is up (load the URL, call a health endpoint). If it's down, tell the user how the project says to start it (if you found it) and ask them to start it.
+Then confirm the target is up (load the URL, call a health endpoint) — "up" means it answers without 5xx or network errors in the console, not just that the port responds. If it's down:
+- **Local target with a documented start command** (README, `package.json` scripts, `docker compose up`, `npx <server>`): say which command you'll run, then try it once in the background and wait for it to answer. Never run setup wizards, migrations or anything that asks for credentials or changes a shared environment.
+- **If that fails, or there's no documented command, or the target isn't local:** stop, tell the user what you tried and what you saw, show the command the project documents (if any) and ask them to start it.
+- **Up but broken by a dependency** (5xx because a database, auth or third-party service is unreachable): it's an environment problem, not a defect. Report what failed (host, error) and ask the user to fix it — don't debug their infrastructure.
 
 ### 3. Safety
 - **Credentials:** use what the user gives, or test users the project already defines for testing. Never guess or reuse real people's credentials, and never copy secrets from `.env` files into notes or the report.
 - **Environment:** local and test environments are fair game. On anything shared, staging-with-real-users or production, **ask before any action that changes state** (creating, paying, deleting, sending emails) — reading is fine. Bypassing the UI to hit the server directly, auth/authorization probing and high-volume batches are only for environments the user explicitly authorized. Never do load/stress or anything that could take the service down.
-- **Test data:** make what you create easy to recognize (a prefix like `qa-explore-`, a fixed ID range) and keep a running list of every record you create. Never use real personal data.
+- **Test data:** make what you create easy to recognize (a prefix like `qa-explore-`, a fixed ID range) and keep a running list of every record you create. Never use real personal data. If the data store is volatile (in-memory server, container without a volume), say so in the report — restarting it is the cleanup.
 
 ### 4. Charter
 If the user brought a charter, use it. If they brought only a target ("explore the checkout"), write one — **Explore** <target> **With** <heuristic / resource / focus> **To discover** <information> — and go on without waiting for approval, unless the request is really vague. With no target at all, pick the area with most risk (recent changes, money, permissions, data that flows to other places) and say why.
@@ -79,7 +82,7 @@ If the project defines what counts as a defect, follow its definition. Otherwise
 Findings outside the charter go into the notes, and if they are defects, into the defect list prefixed with "(Off-charter)".
 
 ### 7. Report
-Write the session report following [references/session-report.md](references/session-report.md) and save it to `exploratory-sessions/<YYYY-MM-DD>-<target-slug>/session.md`, with evidence files next to it — inside the product's project folder when there is one (if it already has a folder or template for session reports, use that), never inside the skills folder. With no project folder (URL only), save it in the current working directory and say where. Clean up temporary tool folders (e.g. `.playwright-mcp/`) after moving the evidence you need.
+Write the session report following [references/session-report.md](references/session-report.md) and save it to `exploratory-sessions/<YYYY-MM-DD>-<target-slug>/session.md`, with evidence files next to it — inside the product's project folder when there is one (if it already has a folder or template for session reports, use that), never inside the skills folder. With no project folder (URL only), save it in the current working directory and say where. If you create a new `exploratory-sessions/` folder in a git repository, tell the user it isn't ignored and ask whether it should be committed or added to `.gitignore` — reports may contain project data. Clean up temporary tool folders (e.g. `.playwright-mcp/`) after moving the evidence you need.
 
 If the user later answers the questions, update the report: add an (I) note with the answers, mark each question as answered, and reclassify the findings.
 

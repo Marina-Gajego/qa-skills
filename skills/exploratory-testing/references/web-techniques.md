@@ -34,6 +34,7 @@ async (page) => {
 Tips:
 - If a case creates a record, use a unique identifier per case. A case that "should fail" may be saved, and then the next one fails for duplication — which confuses the reading.
 - Trim the returned text to the part that matters so the answer doesn't grow for nothing.
+- **Guard every case.** A case you expected to be rejected may be accepted and move the app to the next step — then the next `fill` waits for a field that no longer exists and the whole batch hangs until the tool times out (minutes). Set a short timeout (`page.setDefaultTimeout(4000)`), check after each case that you're still where you expect (URL, step heading), and record + stop at the first deviation instead of continuing blind. Prefer a fresh `goto` per case in multi-step flows.
 - Explore by hand first; the batch sweeps variations once you know what to look for. If something surprises you, go back to step-by-step and pull the thread.
 
 ## Reading what the screen doesn't show

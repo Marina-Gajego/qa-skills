@@ -38,7 +38,7 @@ The only things allowed without the tool are clearly labeled **preparation**: a 
 
 ## Before starting — quick checks
 
-1. **Target is up.** Open the URL / call a health or simple GET endpoint / list devices. If it fails, ask the user to start it — don't debug their infrastructure unless asked.
+1. **Target is up.** Open the URL / call a health or simple GET endpoint / list devices. A page that loads with HTTP 5xx or network errors in the console (e.g. `ERR_NAME_NOT_RESOLVED`, `fetch failed` to its backend) is **not** up. If it's down and local with a documented start command, try starting it once yourself (SKILL.md, step 2); if that fails, ask the user to start it. If a dependency is what's failing (a paused cloud database, an unreachable auth provider), report the host and error as an environment problem and ask the user to fix it — don't debug their infrastructure unless asked.
 2. **Where are you?** Note the environment (URL, build/version if visible, device/OS) — it goes in the report header.
 3. **Access.** Do you need a login or token? Use what the user gave or the project's own test users. If there are none, ask once.
 4. **Session start time.** `date "+%Y-%m-%d %H:%M %s"`.
