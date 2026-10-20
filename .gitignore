@@ -10,3 +10,7 @@ node_modules/
 
 # local bug reports saved by bug-report-writer (may contain project data)
 bug-reports/
+
+# local exploratory session reports (may contain project data) and Playwright MCP output
+exploratory-sessions/
+.playwright-mcp/
