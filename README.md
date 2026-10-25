@@ -4,7 +4,7 @@
 
 Instead of a library of code, this repository is made of **know-how**: each skill packages a QA practice so an AI agent can execute it consistently, using MCP servers and the tools your team already uses along the way.
 
-**Status:** 🚧 Early stage — two skills available today, more being added over time.
+**Status:** 🚧 Early stage — three skills available today, more being added over time.
 
 ---
 
@@ -19,9 +19,10 @@ Skills available **today**:
 | Category | Skill | Description |
 |---|---|---|
 | Discovery | [`test-stack-discovery`](skills/test-stack-discovery/SKILL.md) | Map how your test automation repo is built — stack and versions, how to run it, structure, patterns, naming and selector conventions, environments, test data and auth — with `file:line` evidence for every claim and 1–2 reference tests to imitate. Saves `.qa-skills/test-stack.md` in your repo so automation skills write code that looks like your team wrote it. Read-only: never runs tests or copies secrets. |
+| Testing | [`exploratory-testing`](skills/exploratory-testing/SKILL.md) | Run a real exploratory session (SBTM) on a web app, API, mobile or desktop app — driving the product through MCP tools (Playwright MCP by default) — and get a session report with charter, notes, defects with evidence, questions and next charters. Warns you when the tools to reach the product aren't connected. Validated on web (Playwright MCP) and REST APIs (`curl`); mobile and desktop targets are not validated yet. |
 | Report | [`bug-report-writer`](skills/bug-report-writer/SKILL.md) | Turn any evidence (notes, logs, failed tests) into a clear, reproducible, Jira-style bug report — built strictly from what you provide, with gaps marked instead of invented. Delivers in chat, as a Markdown file, or straight into your tracker via MCP. |
 
-More skills (requirements analysis, test design, exploratory testing, automation, code review, performance…) are planned. Have an idea? Open a **Skill idea** issue.
+More skills (requirements analysis, test design, automation, code review, performance…) are planned. Have an idea? Open a **Skill idea** issue.
 
 ## 📁 Repository structure
 
@@ -47,7 +48,8 @@ Skills follow the open **Agent Skills** format (a folder with a `SKILL.md` conta
 
 1. Copy (or symlink) the skill folder into your agent's skills directory — for example `~/.claude/skills/` for Claude Code.
 2. Ask the agent for the task in natural language (e.g. *"run an exploratory session on the checkout flow"*). The agent loads the skill automatically based on its description.
-3. Connect the MCP servers listed in the skill for the best results.
+3. Point the agent at what you want to work on: open your project folder together with the skill (in Claude Code, start in your project or run `/add-dir <path>`), or just give it a URL. This repository never contains your stack — each skill discovers your project's setup on its own.
+4. Connect the MCP servers listed in the skill for the best results.
 
 ### 🌎 Language: English, Português or Español
 
