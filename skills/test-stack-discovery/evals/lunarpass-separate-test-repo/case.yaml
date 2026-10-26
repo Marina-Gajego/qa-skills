@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: lunarpass-separate-test-repo
+expected_outcome: |
+  Layout B: pairs LunarPassTests with the sibling LunarPass product folder (port 3000, /mission-control routes, missions/reservations/tickets tables). Writes the index plus the six session files. Architecture: POM with composed components (Navbar, Toast) injected via custom fixtures in support/fixtures.ts, mostly consistent with listed deviations (duplicated login credentials, unused saveMission, NewMissionPage creating MissionControlPage). Test case writing: code-only pt-BR titles and test.step; Gherkin and traditional test cases exist only as docs. Recipes for new test, page object, fixture, factory, DB helper with skeletons that only use existing code. App start from product README (yarn setup / yarn start). DATABASE_URL by name only, no passwords. Questions asked at the end in one numbered block.

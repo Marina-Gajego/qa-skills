@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: serverest-bdd-existing-file
+expected_outcome: |
+  Layout C: tests-only Java 17 + Maven + Cucumber 7 + REST Assured + AssertJ suite for ServeRest; product not available, so environment becomes questions. Existing v1 test-stack.md is not overwritten: new files are written as .new.md and the changes are shown. Ignores .claude/.agents/_bmad/_bmad-output in counts, reads project-context.md as documented rules and compares it with the code. Architecture: steps -> services -> factory -> model with ScenarioContext via PicoContainer, with an OOP verdict and deviations. Gherkin: language, Scenario vs Scenario Outline counts, step style and how steps map to step definitions. Recipes for new feature/scenario, step definition, service, factory/model. No secrets.

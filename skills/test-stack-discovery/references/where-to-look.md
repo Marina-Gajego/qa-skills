@@ -1,12 +1,16 @@
 # Where to look
 
-Signals that answer each part of the template, by ecosystem. Use it as a lookup table, not a checklist to read top to bottom — open only what the inventory says exists.
+Signals that answer each part of the templates, by ecosystem. Use it as a lookup table, not a checklist to read top to bottom — open only what the inventory says exists.
 
 ## Contents
 - Tests-only vs product repo
-- Locating test modules
-- Signals by ecosystem (JS/TS, JVM, Python, .NET, Ruby, Go, mobile, performance)
+- Pairing a separate test repo with its product
+- Locating suites and telling them apart
+- How test cases are written
+- Documented rules
+- Signals by ecosystem (JS/TS, JVM, Python, .NET, Ruby, Go, Robot Framework, mobile, performance)
 - Cross-cutting (CI, containers, env, reporting)
+- Coverage map
 - Sampling tips
 - Never read or copy
 
@@ -19,13 +23,34 @@ Signals that answer each part of the template, by ecosystem. Use it as a lookup 
 | baseURL / host points to an app that lives elsewhere | Dockerfile/compose that builds the app itself; migrations; `webServer` starting a local build |
 | Dependencies are only test tooling | Runtime dependencies of a web/API framework (React, Spring, Django, Express, FastAPI…) |
 
-A tests-only repo can still have a `docs/` folder or AI-agent folders (`.claude/`, `.agents/`, `_bmad/`, `.github/copilot-*`, `.cursor/`): those don't make it a product repo.
+A tests-only repo can still have a `docs/` folder or AI-agent folders (`.claude/`, `.agents/`, `_bmad/`, `.github/copilot-*`, `.cursor/`): those don't make it a product repo. A tests-only repo that touches the product's database directly (DB client, SQL, ORM schema) is still tests-only — it just depends on the product's schema.
 
-## Locating test modules
-- Folders: `e2e/`, `tests/`, `test/`, `src/test/`, `src/it/`, `integration-tests/`, `cypress/`, `playwright/`, `features/`, `specs/`, `qa/`, `automation/`, `perf/`, `load/`.
-- File names: `*.spec.*`, `*.test.*`, `*.cy.*`, `*.e2e.*`, `test_*.py`, `*_test.py`, `*_test.go`, `*Test.java`, `*IT.java`, `*Tests.cs`, `*_spec.rb`, `*.feature`, `*.jmx`, k6 scripts importing `k6/http`.
+## Pairing a separate test repo with its product
+Look in the other workspace folders first, then in sibling folders of the test repo on disk (same parent directory). Strong signals, best first:
+- The test repo's README/CI names the product repo (git URL, folder, docker image) or checks it out in CI.
+- Folder or package names match: `shop` / `shop-tests` / `shop-e2e` / `shop-automation`, `LunarPass` / `LunarPassTests`.
+- The baseURL/host port matches the product's dev server port (`next dev -p 3000`, `server.port`, `PORT=` in `.env.example`, docker-compose ports).
+- Routes, page paths or API endpoints the tests call exist in the product (`/checkout` → `app/checkout/page.tsx`, `/api/orders` → a controller).
+- Tables or columns the tests query exist in the product's schema/migrations.
+
+One strong signal or two medium ones are enough to pair — say which ones you used. A name match alone with nothing else is a guess: pair it but flag it as a question. Never pair with a folder you only assume exists.
+
+## Locating suites and telling them apart
+- Folders: `e2e/`, `tests/`, `test/`, `src/test/`, `src/it/`, `integration-tests/`, `cypress/`, `playwright/`, `features/`, `specs/`, `qa/`, `automation/`, `api/`, `contract/`, `pact/`, `perf/`, `load/`, `__tests__/`.
+- File names: `*.spec.*`, `*.test.*`, `*.cy.*`, `*.e2e.*`, `test_*.py`, `*_test.py`, `*_test.go`, `*Test.java`, `*IT.java`, `*Tests.cs`, `*_spec.rb`, `*.feature`, `*.robot`, `*.jmx`, k6 scripts importing `k6/http`, `locustfile.py`, Gatling `simulations/`.
 - Monorepos: `workspaces` in `package.json`, `pnpm-workspace.yaml`, `nx.json`/`project.json`, `turbo.json`, `lerna.json`, Maven `<modules>`, Gradle `settings.gradle(.kts)` `include(...)`. A package/module named `e2e`, `tests`, `*-tests`, `acceptance`, `qa` is a strong candidate.
-- Count files per candidate; the e2e/API/integration suite is usually what QA automation extends.
+- **What makes two suites different:** a different type (UI vs API vs unit vs load), runner or config (`jest.config` vs `playwright.config`, surefire vs failsafe), runner project (`projects: [{ name: 'api' }, { name: 'chromium' }]`), or way of being run (separate script, profile, CI job). Same runner but different folders and fixtures (UI specs with page objects vs API specs with `request`) are two suites.
+- **Telling the type from the code:** UI tests drive a browser/app (`page.`, `cy.get`, `driver.find`, Appium capabilities); API tests send requests and assert status/body (`request.`, `given().when()`, `httpx`, `supertest`); unit tests import product modules directly and mock their dependencies; component tests mount a component (`mount(`, `render(`); contract tests use Pact/Spring Cloud Contract or validate against a schema/OpenAPI; performance tests define load (stages, VUs, thread groups, `users`/`spawn_rate`).
+- Count files and tests per suite (`grep -c "test(\|it("`, `@Test`, `Scenario:` / `Scenario Outline:`, `def test_`).
+
+## How test cases are written
+- **Gherkin/BDD:** `*.feature` files; the spoken language from `# language: pt` (keywords `Funcionalidade`, `Cenário`, `Esquema do Cenário`, `Dado`/`Quando`/`Então`) or `# language: es` (`Característica`, `Escenario`, `Dado`/`Cuando`/`Entonces`), English otherwise; `Background`, `Scenario Outline` + `Examples`, tags; how many scenarios per feature; step definitions folder and whether steps are generic ("I send a POST to {string}") or business-level ("I add a product to the cart"). Frameworks: Cucumber (JS/Java), SpecFlow/Reqnroll, Behave, pytest-bdd, Karate, `playwright-bdd`, `cypress-cucumber-preprocessor`.
+- **Code-only:** the test titles *are* the test cases — record the pattern (`should … when …`, `deve … quando …`, `CT01 - …`, `[JIRA-123] …`) and language, counting how many follow it.
+- **Test-case documents in the repo:** `test-cases/`, `docs/test-cases/`, `casos-de-teste/`, `*.csv`/`*.xlsx` exports, Markdown with "Pré-condição / Passos / Resultado esperado", Robot Framework `*** Test Cases ***`.
+- **Traceability and test management:** Jira keys in titles or tags (`@PROJ-123`, `test.info().annotations`), Xray (`xray` reporter, `@TestCaseKey`, `cucumber` JSON upload in CI), TestRail (`testrail-reporter`, `C1234` IDs), Zephyr, Qase, Allure TestOps (`@AllureId`, `allure.id`), Azure Test Plans. A README pointing to an external tool ("cases live in TestRail project X") counts — name it, don't guess its content.
+
+## Documented rules
+README and CONTRIBUTING of the test repo/module, `docs/` (architecture, conventions, ADRs), PR template checklist (`.github/pull_request_template.md`), issue templates, agent context files (`AGENTS.md`, `CLAUDE.md`, `project-context.md`, `.github/copilot-instructions.md`, `.cursor/rules/`), lint rules that enforce test style (`eslint-plugin-playwright` `no-wait-for-timeout`, `no-focused-tests`), commit conventions (`commitlint.config.*`, `.husky/`, recent `git log --oneline -30`), branch naming in CI triggers. Written rules beat inferred ones, but stale docs are common: check the code still follows each rule and report both when they disagree.
 
 ## Signals by ecosystem
 
@@ -59,6 +84,9 @@ A tests-only repo can still have a `docs/` folder or AI-agent folders (`.claude/
 ### Go
 `go.mod` (Go version), `*_test.go`, testify, `go test ./... -run`, build tags.
 
+### Robot Framework
+`*.robot` files (`*** Settings ***`, `*** Variables ***`, `*** Test Cases ***`, `*** Keywords ***`), `resources/` with keyword files, libraries in `Library` lines (Browser, SeleniumLibrary, RequestsLibrary, AppiumLibrary), `requirements.txt`/`pyproject.toml` for versions, `robot --include <tag> --variable ENV:qa`, `[Tags]`, `[Documentation]`, Gherkin-style keywords (`Given`/`When`/`Then` prefixes) used as test-case writing style.
+
 ### Mobile
 Appium (capabilities in config/JSON, `wdio.conf` with appium service, java-client), Detox (`.detoxrc`, `e2e/` with jest), Maestro (`.maestro/*.yaml`), Espresso/XCUITest (inside the app's `androidTest`/`UITests` targets).
 
@@ -70,7 +98,11 @@ k6 (`import http from 'k6/http'`, `options` with stages/thresholds), JMeter (`*.
 - **Containers / app startup:** `docker-compose*.yml`, `Dockerfile`, `Makefile`, `Procfile`, `webServer` in Playwright config, `start-server-and-test` in scripts, README "running locally". In a product repo, also `seeds/`, `migrations/`, `fixtures/` used by tests.
 - **Env:** `.env.example`/`.env.sample`/`.env.template` (names only), `process.env.X`, `os.environ`/`os.getenv`, `System.getenv`/`System.getProperty`, `Cypress.env`, `karate.env`. Grep for them to build the variable table.
 - **Reporting:** reporter config, `allure-*`, `junit` xml paths, `mochawesome`, `extent`, `pytest-html`; where reports are written (often gitignored).
-- **Docs:** README/CONTRIBUTING/`docs/` of the test module, and repo-specific agent context files (`AGENTS.md`, `CLAUDE.md`, `project-context.md`, `.github/copilot-instructions.md`, `.cursor/rules/`) — conventions written down beat conventions inferred, but check that the code still follows them (stale docs are common; when they disagree, report both).
+- **Docs:** see Documented rules above.
+
+## Coverage map
+- **Areas from the tests:** feature folders (`tests/cart/`), `describe`/`Feature:` titles, tags (`@cart`), page objects and API clients named after areas, routes/endpoints in `goto`/`request` calls. Group by the names the team uses; count tests per area and per suite.
+- **Areas from the product (layouts A/B):** Next/Nuxt/SvelteKit route folders (`app/**/page.tsx`, `pages/`), React Router route tables, Express/Nest/Spring/FastAPI/Django route or controller definitions, OpenAPI paths. Compare with the areas the tests touch; list the uncovered ones as observed, not as a verdict — a product area can be covered by tests you didn't find (another repo, manual testing).
 
 ## Sampling tips
 - Recently changed files: `git log --name-only --since=<~6 months> -- <test dir>` and pick frequent ones; they reflect the current style.
