@@ -16,8 +16,9 @@ Typos, unclear wording and broken links don't need an example or a prior issue â
 2. Create `skills/<skill-name>/SKILL.md` with `name` and `description` frontmatter. Use [`bug-report-writer`](skills/bug-report-writer/SKILL.md) as a reference.
 3. Put long checklists, heuristics or examples in `references/` and helper scripts in `scripts/`.
 4. Add the standard **Language** block so the skill honors `.qa-skills.yaml` â€” see [docs/configuration.md](docs/configuration.md#for-skill-authors). If it produces structured output, include a `references/labels.md` with `en`, `pt-BR` and `es` translations.
-5. Add the skill to the catalog in `README.md`.
-6. Open a pull request (fork the repo, create a branch, push, and open the PR against the default branch) with an example of the skill in action (prompt + result).
+5. If the skill saves context other skills can reuse, write it to `.qa-skills/` in the user's project, following the rules in [docs/configuration.md](docs/configuration.md#writing-to-qa-skills).
+6. Add the skill to the catalog in `README.md`.
+7. Open a pull request (fork the repo, create a branch, push, and open the PR against the default branch) with an example of the skill in action (prompt + result).
 
 ## Guidelines
 - **One skill, one job.** Keep each skill focused on a single QA practice.

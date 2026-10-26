@@ -4,7 +4,7 @@
 
 Instead of a library of code, this repository is made of **know-how**: each skill packages a QA practice so an AI agent can execute it consistently, using MCP servers and the tools your team already uses along the way.
 
-**Status:** 🚧 Early stage — two skills available today, more being added over time.
+**Status:** 🚧 Early stage — three skills available today, more being added over time.
 
 ---
 
@@ -18,6 +18,7 @@ Skills available **today**:
 
 | Category | Skill | Description |
 |---|---|---|
+| Discovery | [`test-stack-discovery`](skills/test-stack-discovery/SKILL.md) | Study how your tests are built — inside the product repo or in a separate test repo — in focused sessions: stack and how to run every suite (e2e, API, unit, performance…), the architecture and how consistently it follows OOP, how test cases are written (Gherkin, titles, Jira/Xray keys), naming/selector conventions and team rules, step-by-step recipes to add tests, page objects, steps and fixtures the team's way, plus data, auth, environments, CI and coverage. `file:line` evidence for every claim. Saves it in `.qa-skills/` in your repo so other skills write tests that look like your team wrote them. Read-only: never runs tests or copies secrets. Takes a while on purpose (≈8–12 min on a mid-size repo). **Model:** use your strongest model (e.g. Opus) for the first discovery of a repo — it catches more (in our tests, a real bug in the test code and the full set of recipes); a lighter model (e.g. Sonnet) used ~30% fewer tokens at a lower price per token and is a good fit for re-runs that update existing files. |
 | Testing | [`exploratory-testing`](skills/exploratory-testing/SKILL.md) | Run a real exploratory session (SBTM) on a web app, API, mobile or desktop app — driving the product through MCP tools (Playwright MCP by default) — and get a session report with charter, notes, defects with evidence, questions and next charters. Warns you when the tools to reach the product aren't connected. Validated on web (Playwright MCP) and REST APIs (`curl`); mobile and desktop targets are not validated yet. |
 | Report | [`bug-report-writer`](skills/bug-report-writer/SKILL.md) | Turn any evidence (notes, logs, failed tests) into a clear, reproducible, Jira-style bug report — built strictly from what you provide, with gaps marked instead of invented. Delivers in chat, as a Markdown file, or straight into your tracker via MCP. |
 
