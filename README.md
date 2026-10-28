@@ -31,7 +31,7 @@ Every skill works on its own, but some of them hand context to each other:
 
 ```
 test-stack-discovery ──writes .qa-skills/──▶ test-automation ──failing test──▶ bug-report-writer
-                                                                                      ▲
+                                                                                     ▲
 exploratory-testing ─────────────────defects found in the session────────────────────┘
 ```
 
