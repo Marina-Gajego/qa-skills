@@ -56,6 +56,7 @@ your-test-repo/
 - **Commit it.** The files hold no secrets (only variable *names* and file locations), so committing them gives every teammate's agent the same context. Correct them by hand whenever something is wrong — skills keep entries you mark `(confirmed by QA)`.
 - **Never overwritten silently.** A skill that finds an existing file writes the new version beside it (`<name>.new.md`), shows what changed and asks before replacing it.
 - **Optional for readers.** Each file is a shortcut, not a requirement: a skill that reads one still works without it.
+- **Only the owner writes.** `test-stack-discovery` is the only skill that writes `test-stack*`; `test-automation` only reads those files and never edits them — if they're wrong or stale, it tells you and suggests re-running the discovery.
 
 ## For skill authors
 

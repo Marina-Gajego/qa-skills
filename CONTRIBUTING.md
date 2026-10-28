@@ -16,13 +16,21 @@ Typos, unclear wording and broken links don't need an example or a prior issue �
 2. Create `skills/<skill-name>/SKILL.md` with `name` and `description` frontmatter. Use [`bug-report-writer`](skills/bug-report-writer/SKILL.md) as a reference.
 3. Put long checklists, heuristics or examples in `references/` and helper scripts in `scripts/`.
 4. Add the standard **Language** block so the skill honors `.qa-skills.yaml` — see [docs/configuration.md](docs/configuration.md#for-skill-authors). If it produces structured output, include a `references/labels.md` with `en`, `pt-BR` and `es` translations.
-5. If the skill saves context other skills can reuse, write it to `.qa-skills/` in the user's project, following the rules in [docs/configuration.md](docs/configuration.md#writing-to-qa-skills).
-6. Add the skill to the catalog in `README.md`.
-7. Open a pull request (fork the repo, create a branch, push, and open the PR against the default branch) with an example of the skill in action (prompt + result).
+5. If the skill saves context other skills can reuse, write it to `.qa-skills/` in the user's project, following the rules in [docs/configuration.md](docs/configuration.md#writing-to-qa-skills). If it reads another skill's file, follow [Reading from `.qa-skills/`](docs/configuration.md#reading-from-qa-skills) — it must still work without it.
+6. Helper scripts go in `scripts/`, use the Python standard library only and stay read-only. The skill must still work (by hand) when Python isn't available.
+7. Optionally add eval cases in `skills/<skill-name>/evals/<case-name>/`: a `prompt.md` (the request, with frontmatter for tools and limits), a `case.yaml` (`name` and `expected_outcome`) and a `graders/` folder with one check per file. See [`test-automation/evals`](skills/test-automation/evals) for examples.
+8. Link the skill so Claude Code loads it when the repo is opened: `ln -s ../../skills/<skill-name> .claude/skills/<skill-name>`.
+9. Update the docs:
+   - add the skill to the catalog in `README.md`, saying what it was validated on (stack, target) and what wasn't validated yet;
+   - update **How the skills fit together** in `README.md` if it hands context to or receives it from another skill;
+   - add a row to [docs/mcp-and-tools.md](docs/mcp-and-tools.md) for every MCP server or tool it relies on;
+   - add its files to the `.qa-skills/` tree in [docs/configuration.md](docs/configuration.md) if it writes or reads any.
+10. Open a pull request (fork the repo, create a branch, push, and open the PR against the default branch) with an example of the skill in action (prompt + result).
 
 ## Guidelines
 - **One skill, one job.** Keep each skill focused on a single QA practice.
 - **Write a great `description`.** It decides when the agent uses the skill — say *what* it does and *when* to use it.
+- **Never depend on another skill.** Skills are installed one by one: reading another skill's output is fine, requiring it is not.
 - **Be tool-agnostic when possible.** Mention preferred tools/MCPs, but provide fallbacks.
 - **Show, don't just tell.** Include examples of good output.
 - **Write in English, reply in the user's language.** Skill files are in English; the output follows the user's language preference.

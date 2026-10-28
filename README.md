@@ -25,6 +25,21 @@ Skills available **today**:
 
 More skills (requirements analysis, test design, code review, performance…) are planned. Have an idea? Open a **Skill idea** issue.
 
+## 🔗 How the skills fit together
+
+Every skill works on its own, but some of them hand context to each other:
+
+```
+test-stack-discovery ──writes .qa-skills/──▶ test-automation ──failing test──▶ bug-report-writer
+                                                                                     ▲
+exploratory-testing ─────────────────defects found in the session────────────────────┘
+```
+
+- **`test-stack-discovery` → `test-automation`.** Discovery saves what it learns about your test repo (stack, architecture, conventions, recipes) in `.qa-skills/`. Automation reads those files to write tests that look like your team's. If the files aren't there, Automation does a lighter discovery of its own, so you don't have to run Discovery first.
+- **`test-automation` / `exploratory-testing` → `bug-report-writer`.** When a new test or an exploratory session finds a real defect, the report writer turns that evidence into a ticket.
+
+Shared context lives in your project's `.qa-skills/` folder — see [docs/configuration.md](docs/configuration.md#project-context-folder-qa-skills).
+
 ## 📁 Repository structure
 
 ```
@@ -32,13 +47,16 @@ qa-skills/
 ├── skills/                 # One folder per skill, each with a SKILL.md
 │   └── <skill-name>/
 │       ├── SKILL.md        # Instructions + metadata (required)
-│       ├── references/     # Checklists, heuristics, examples (optional)
-│       └── scripts/        # Helper scripts (optional)
+│       ├── references/     # Checklists, heuristics, templates, labels (optional)
+│       ├── scripts/        # Helper scripts, Python stdlib only (optional)
+│       └── evals/          # Eval cases: prompt.md + case.yaml + graders/ (optional)
+├── .claude/skills/         # Symlinks to skills/, so Claude Code loads them when opened here
+├── .mcp.json               # Playwright MCP, loaded by Claude Code when opened here
 ├── docs/
-│   ├── configuration.md    # Language preference (.qa-skills.yaml)
+│   ├── configuration.md    # Language preference (.qa-skills.yaml) and the .qa-skills/ folder
 │   └── mcp-and-tools.md    # MCP servers and tools the skills rely on
 ├── .qa-skills.example.yaml # Preferences template (language)
-├── .github/ISSUE_TEMPLATE/ # "Skill idea" issue template
+├── .github/ISSUE_TEMPLATE/ # "Bug report" and "Skill idea" issue templates
 ├── CONTRIBUTING.md
 └── LICENSE
 ```
@@ -47,7 +65,11 @@ Skills follow the open **Agent Skills** format (a folder with a `SKILL.md` conta
 
 ## 🚀 Using a skill
 
-1. Copy (or symlink) the skill folder into your agent's skills directory — for example `~/.claude/skills/` for Claude Code.
+1. Copy (or symlink) the skill folder into your agent's skills directory — for example `~/.claude/skills/` for Claude Code. To install all of them at once:
+   ```bash
+   for s in /path/to/qa-skills/skills/*/; do ln -s "$s" ~/.claude/skills/; done
+   ```
+   Or just open Claude Code inside this repository: the skills (`.claude/skills/`) and the Playwright MCP (`.mcp.json`) are already wired up.
 2. Ask the agent for the task in natural language (e.g. *"run an exploratory session on the checkout flow"*). The agent loads the skill automatically based on its description.
 3. Point the agent at what you want to work on: open your project folder together with the skill (in Claude Code, start in your project or run `/add-dir <path>`), or just give it a URL. This repository never contains your stack — each skill discovers your project's setup on its own.
 4. Connect the MCP servers listed in the skill for the best results.
