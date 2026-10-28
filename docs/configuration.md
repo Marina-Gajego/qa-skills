@@ -41,7 +41,7 @@ Some skills learn things about your project that other skills need later — how
 your-test-repo/
 ├── .qa-skills.yaml        # your preferences (language)
 └── .qa-skills/
-    ├── test-stack.md      # written by test-stack-discovery · index: repos, suites, sessions, coverage, open questions
+    ├── test-stack.md      # written by test-stack-discovery · read by test-automation · index: repos, suites, sessions, coverage, open questions
     ├── test-stack/        # one file per discovery session
     │   ├── stack.md                 # versions, how to run, structure
     │   ├── architecture.md          # layers, how a test flows, OOP and consistency assessment

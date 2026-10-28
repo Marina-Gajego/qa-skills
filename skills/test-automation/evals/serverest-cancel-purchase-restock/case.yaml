@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: serverest-cancel-purchase-restock
+expected_outcome: |
+  Cucumber scenario in English added to the Carts cancel-purchase feature (SR03) with the next @CARTS id, written before the steps. Reuses existing steps (registered product/cart, cancel purchase, status code, contract, GET product by id) verbatim; only the stock-check step(s) are new, placed in the right domain step class, using ScenarioContext and the existing services. reuse_index --check shows no undefined steps; mvn test-compile runs. Delivery shows the reuse map.
