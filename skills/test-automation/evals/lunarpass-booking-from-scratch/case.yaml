@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: lunarpass-booking-from-scratch
+expected_outcome: |
+  Greenfield area: no booking page object or spec exists. Creates a new spec file and a new booking page object that mirror the existing areas (file naming like missionControlNew.page.ts / MissionControlNew.spec.ts, pt-BR titles with test.step, getByRole locators), registers the page as a fixture in support/fixtures.ts, and still reuses the shared infrastructure: createMission fixture plus db helpers to have a mission to book, deleteReservation/deleteTicket or cleanMission for cleanup, Toast/Navbar components where the page has them. Selectors and messages come from the LunarPass product code, not invented. Existing code is only extended (fixture registration, maybe a db select helper), never rewritten. Static checks run; delivery shows the reuse map with the created items justified.

@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: lunarpass-edit-mission
+expected_outcome: |
+  Playwright TS e2e test in pt-BR with test.step, written first as titles/steps, then implemented. Reuses the createMission fixture, db helpers (insert/select/clean), Toast and the mission form instead of duplicating NewMissionPage locators. A new page object (if any) is registered as a fixture in support/fixtures.ts. Mission data inserted through db helpers and cleaned up. Static checks (tsc/playwright --list) run. Delivery shows the reuse map and questions.

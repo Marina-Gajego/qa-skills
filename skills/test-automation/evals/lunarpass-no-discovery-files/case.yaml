@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: lunarpass-no-discovery-files
+expected_outcome: |
+  The repo has no .qa-skills/ files, so the skill does its own lighter discovery (reads package.json, playwright config, fixtures, page objects and the existing specs) instead of stopping. Writes the spec skeleton first, then reuses the existing Navbar.logout()/logoutButton, the loginPage fixture and the authenticated storage state from auth.setup.ts; any new code follows the existing page object + fixture pattern. pt-BR titles with test.step. Type-check and --list run. Delivery says it worked without the discovery files and suggests running test-stack-discovery.
